@@ -1,6 +1,7 @@
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))))
 SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
 DEBUG = True
 ALLOWED_HOSTS = []
@@ -22,6 +23,10 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'rest_framework',
     'rest_framework.authtoken',
+
+    # Adding the users app that we generated with
+    # python .\manage.py startapp users
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -75,6 +80,19 @@ REST_FRAMEWORK = {
     ),
 }
 
+ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+# This is our default model to use when auth-ing users
+AUTH_USER_MODEL = 'users.User'
+
+
+# Need to configure auth for our custom User model
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAIL_SERIALIZER': 'users.serializers.UserSerializer',
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSeralizer'
+}
